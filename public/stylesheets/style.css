@@ -38,3 +38,17 @@ nav span {
     width: 100%;
     display: inline-block;
 }
+
+#author {
+    text-align: left;
+}
+#author span{
+   font-weight: bold;
+}
+#author img {
+    width: 300px;
+    padding:1em 0;
+}
+#author img {
+    display: block;
+}
