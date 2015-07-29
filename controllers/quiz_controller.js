@@ -8,7 +8,7 @@ exports.question = function(req, res){
 };
 
 //GET /quizes/answers
-exports.answers = function(req, res){
+exports.answer = function(req, res){
     models.Quiz.findAll().success(function(quiz){
         if(res.query.respuesta === quiz[0].respuesta){
             res.render('/quizes/answer', {respuesta: 'Correcto'});
@@ -17,3 +17,8 @@ exports.answers = function(req, res){
         }
     })
 };
+
+//GET /quizes/author
+exports.author = function (req, res){
+    res.render('author', {author: 'Santi'});
+}

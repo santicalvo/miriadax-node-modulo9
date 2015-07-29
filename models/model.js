@@ -13,13 +13,14 @@ exports.Quiz = Quiz; //exportar definición de tabla en Quiz
 
 //squilize.sync crea e inicializa la tabla de preguntas
 sequelize.sync().success(function(){
-    quiz.count.success(function(count){
+    Quiz.count().success(function(count){
+        console.log("count: "+count);
         if(count === 0){ //La tabla se inicializa sólo si está vacía
             Quiz.create({
-                pregunta: 'Capital de Italia',
-                respuesta: 'Roma'
+                pregunta: "Capital de Italia",
+                respuesta: "Roma"
             })
-            .success( function(){ console.log("Base de datos inicializada")} );
+            .success( function(f){ console.log("Base de datos inicializada!")} );
         }
     })
 });
