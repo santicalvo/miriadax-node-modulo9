@@ -1,5 +1,5 @@
 var path = require('path');
-
+//if(!process.env.DATABASE_URL) process.env.DATABASE_URL="sqlite://:@:/";
 var url = process.env.DATABASE_URL.match(/(.*)\:\/\/(.*?)\:(.*)@(.*)\:(.*)\/(.*)/);
 var DB_name     = (url[6] || null);
 var user        = (url[2] || null);

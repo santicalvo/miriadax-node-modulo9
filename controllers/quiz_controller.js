@@ -1,4 +1,4 @@
-var models= require('../models/model.js');
+var models = require('../models/model.js');
 
 //GET /quizes/question
 exports.question = function(req, res){
@@ -10,10 +10,10 @@ exports.question = function(req, res){
 //GET /quizes/answers
 exports.answer = function(req, res){
     models.Quiz.findAll().success(function(quiz){
-        if(res.query.respuesta === quiz[0].respuesta){
-            res.render('/quizes/answer', {respuesta: 'Correcto'});
+        if(req.query.respuesta === quiz[0].respuesta){
+            res.render('quizes/answer', {respuesta: 'Correcto'});
         }else{
-            res.render('/quizes/answer', {respuesta: 'Incorrecto'});
+            res.render('quizes/answer', {respuesta: 'Incorrecto'});
         }
     })
 };
