@@ -32,47 +32,50 @@ exports.load = function(req, res, next, quizId){
 //GET /
 exports.index = function(req, res){
     models.Quiz.findAll().success(function(quizes){
-        res.render('quizes/index.ejs', {quizes: quizes});
+        res.render('quizes/index.ejs', { quizes: quizes, errors:[] });
     });
 };
 
 //GET /quizes/question
 exports.show = function(req, res){
-    /*models.Quiz
-        .find(req.params.quizId)
-        .then(function(quiz){
-            res.render('quizes/show', {quiz: quiz});
-        }
-    )*/
-    res.render('quizes/show', {quiz: req.quiz});
+    res.render('quizes/show', {quiz: req.quiz, errors:[]});
 };
 
 //GET /quizes/answers
 exports.answer = function(req, res){
     var resultado = (req.query.respuesta === req.quiz.respuesta) ? "Correcto" : "Incorrecto";
-    res.render('quizes/answer', {quiz: req.quiz, respuesta: resultado});
-    /*models.Quiz
-        .find(req.params.quizId)
-        .then(function(quiz){
-            if(req.query.respuesta === quiz.respuesta){
-                res.render('quizes/answer',
-                            {quiz: quiz, respuesta: 'Correcto'});
+    res.render('quizes/answer', {quiz: req.quiz, respuesta: resultado, errors:[]});
+};
+
+// GET /quizes/new
+exports.new = function(req, res){
+    var quiz = models.Quiz.build({
+        pregunta:"Pregunta",
+        respuesta:"Respuesta"
+    });
+    res.render('quizes/new', {quiz: quiz, errors:[]});
+};
+
+// GET /quizes/new
+exports.create = function(req, res){
+    var quiz = models.Quiz.build(req.quiz.body);
+    //Guarda en bbdd los campos pregunta y respuesta:
+    quiz
+        .validate()
+        .then(function(err){
+            if(err){
+                res.render("quizes/new", {quiz: quiz, errors: err.errors, errors:[]});
             }else{
-                res.render('quizes/answer',
-                            {quiz: quiz, respuesta: 'Incorrecto'});
+                quiz
+                    .save({fields: ['pregunta', 'respuesta']})
+                    .then(function(){
+                        res.redirect('quizes');
+                    });
             }
-        }
-    );*/
-    /*models.Quiz.findAll().success(function(quiz){
-        if(req.query.respuesta === quiz[0].respuesta){
-            res.render('quizes/answer', {respuesta: 'Correcto'});
-        }else{
-            res.render('quizes/answer', {respuesta: 'Incorrecto'});
-        }
-    })*/
+        });
 };
 
 //GET /quizes/author
 exports.author = function (req, res){
     res.render('author', {author: 'Santi'});
-}
+};

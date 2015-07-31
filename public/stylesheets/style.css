@@ -39,6 +39,11 @@ nav span {
     display: inline-block;
 }
 
+#ErrorMsgs {
+    color: #fg1;
+    font-size: smaller;
+}
+
 #author {
     text-align: left;
 }
