@@ -1,5 +1,5 @@
 var path = require('path');
-//if(!process.env.DATABASE_URL) process.env.DATABASE_URL="sqlite://:@:/";
+if(!process.env.DATABASE_URL) process.env.DATABASE_URL="sqlite://:@:/";
 var url = process.env.DATABASE_URL.match(/(.*)\:\/\/(.*?)\:(.*)@(.*)\:(.*)\/(.*)/);
 var DB_name     = (url[6] || null);
 var user        = (url[2] || null);
@@ -22,12 +22,28 @@ var sequelize = new Sequelize(DB_name, user, pwd, {
     omitNull:   true     //solo Postgres
 });
 
+var localSequelizeDebug = { dialect: 'sqlite',
+    protocol: 'sqlite',
+    port: null,
+    host: null,
+    storage: 'quiz.sqlite',
+    omitNull: true };
+
+// Poner a false para ejecutar con node sin foreman
+var fuckForeman = true;
+if(fuckForeman){
+    sequelize = new Sequelize(DB_name, user, pwd, localSequelizeDebug);
+    console.log("ejecucion local para debugear sin  foreman");
+}
+
+
+
 //Importar la definición de la tabla en quiz.js
 var Quiz = sequelize.import(path.join(__dirname, 'quiz'));
 exports.Quiz = Quiz; //exportar definición de tabla en Quiz
 
 //squilize.sync crea e inicializa la tabla de preguntas
-sequelize.sync().success(function(){
+/*sequelize.sync().success(function(){
     Quiz.count().success(function(count){
         console.log("count: "+count);
         if(count === 0){ //La tabla se inicializa sólo si está vacía
@@ -40,6 +56,22 @@ sequelize.sync().success(function(){
                 respuesta: "Lisboa"
             })
             .success( function(f){ console.log("Base de datos inicializada!")} );
+        }
+    })
+});*/
+sequelize.sync().then(function(){
+    Quiz.count().then(function(count){
+        console.log("count: "+count);
+        if(count === 0){ //La tabla se inicializa sólo si está vacía
+            Quiz.create({
+                pregunta: "Capital de Italia",
+                respuesta: "Roma"
+            });
+            Quiz.create({
+                pregunta: "Capital de Portugal",
+                respuesta: "Lisboa"
+            })
+                .then( function(f){ console.log("Base de datos inicializada!")} );
         }
     })
 });
