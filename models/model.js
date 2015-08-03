@@ -30,7 +30,7 @@ var localSequelizeDebug = { dialect: 'sqlite',
     omitNull: true };
 
 // Poner a false para ejecutar con node sin foreman
-var fuckForeman = true;
+var fuckForeman = false;
 if(fuckForeman){
     sequelize = new Sequelize(DB_name, user, pwd, localSequelizeDebug);
     console.log("ejecucion local para debugear sin  foreman");
