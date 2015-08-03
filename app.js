@@ -17,11 +17,12 @@ app.set('view engine', 'ejs');
 // uncomment after placing your favicon in /public
 //app.use(favicon(__dirname + '/public/favicon.ico'));
 
+global.MAIN_SUBJECTS = ['Otro', 'Humanidades', 'Ocio', 'Ciencia', 'Tecnología'];
+
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
-
 app.use(methodOverride('_method'));
 app.use(cookieParser());
 app.use(partials());

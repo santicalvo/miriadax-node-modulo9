@@ -42,36 +42,36 @@ if(fuckForeman){
 var Quiz = sequelize.import(path.join(__dirname, 'quiz'));
 exports.Quiz = Quiz; //exportar definición de tabla en Quiz
 
+/*
+//Importar la definición de la tabla en subject.js
+var Subject = sequelize.import(path.join(__dirname, 'subject'));
+exports.Subject = Subject; //exportar definición de tabla en Subject
+//Quiz.belongsTo(Subject);
+Subject.hasMany(Quiz);
+*/
+
 //squilize.sync crea e inicializa la tabla de preguntas
-/*sequelize.sync().success(function(){
-    Quiz.count().success(function(count){
-        console.log("count: "+count);
-        if(count === 0){ //La tabla se inicializa sólo si está vacía
-            Quiz.create({
-                pregunta: "Capital de Italia",
-                respuesta: "Roma"
-            });
-            Quiz.create({
-                pregunta: "Capital de Portugal",
-                respuesta: "Lisboa"
-            })
-            .success( function(f){ console.log("Base de datos inicializada!")} );
-        }
-    })
-});*/
 sequelize.sync().then(function(){
     Quiz.count().then(function(count){
-        console.log("count: "+count);
         if(count === 0){ //La tabla se inicializa sólo si está vacía
+            /*
+            for (var i=0; i<materias.length; i++){
+                Subject.create({
+                    nombre: materias[i]
+                });
+            };
+            */
             Quiz.create({
-                pregunta: "Capital de Italia",
-                respuesta: "Roma"
+                pregunta: "Capital de Italia!",
+                respuesta: "Roma",
+                materia: MAIN_SUBJECTS[0]
             });
             Quiz.create({
                 pregunta: "Capital de Portugal",
-                respuesta: "Lisboa"
+                respuesta: "Lisboa",
+                materia: MAIN_SUBJECTS[0]
             })
-                .then( function(f){ console.log("Base de datos inicializada!")} );
+            .then( function(f){ console.log("Base de datos inicializada!")} );
         }
-    })
+    });
 });

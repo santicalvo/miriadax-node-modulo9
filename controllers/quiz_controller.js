@@ -48,16 +48,17 @@ exports.show = function(req, res){
 
 //GET /quizes/answers
 exports.answer = function(req, res){
-    var resultado = (req.query.respuesta === req.quiz.respuesta) ? "Correcto" : "Incorrecto";
+    var resultado = (req.query.respuesta.toLowerCase() === req.quiz.respuesta.toLowerCase()) ? "Correcto" : "Incorrecto";
     res.render('quizes/answer', {quiz: req.quiz, respuesta: resultado, errors:[]});
 };
 
 // GET /quizes/new
 exports.new = function(req, res){
     var quiz = models.Quiz.build({
-        pregunta:"Pregunta",
-        respuesta:"Respuesta"
+        pregunta:"",
+        respuesta:""
     });
+    quiz.subjects = MAIN_SUBJECTS;
     res.render('quizes/new', {quiz: quiz, errors:[]});
 };
 
@@ -72,7 +73,7 @@ exports.create = function(req, res){
                 res.render("/quizes/new", {quiz: quiz, errors: err.errors});
             }else{
                 quiz
-                    .save({fields: ['pregunta', 'respuesta']})
+                    .save({fields: ['pregunta', 'respuesta', 'materia']})
                     .then(function(){
                         res.redirect('/quizes');
                     });
@@ -83,6 +84,7 @@ exports.create = function(req, res){
 // GET /quizes/:id/edit
 exports.edit = function(req, res){
     var quiz = req.quiz;
+    quiz.subjects = MAIN_SUBJECTS;
     res.render('quizes/edit', {quiz: quiz, errors:[]});
 };
 
@@ -101,6 +103,7 @@ exports.destroy = function(req, res){
 exports.update = function(req, res){
     req.quiz.pregunta = req.body.quiz.pregunta;
     req.quiz.respuesta = req.body.quiz.respuesta;
+    req.quiz.materia = req.body.quiz.materia;
     //res.redirect('quizes');
     // Actualiza en bbdd los campos pregunta y respuesta:
     req.quiz
@@ -110,14 +113,14 @@ exports.update = function(req, res){
                 res.render("quizes/edit", {quiz: req.quiz, errors: err.errors});
             }else{
                 req.quiz
-                    .save({fields: ['pregunta', 'respuesta']})
+                    .save({fields: ['pregunta', 'respuesta', 'materia']})
                     .then(function(){
                         res.redirect('/quizes');
                     });
             }
         }
     );
-}
+};
 
 //GET /quizes/author
 exports.author = function (req, res){
