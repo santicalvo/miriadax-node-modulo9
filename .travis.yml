@@ -1,0 +1,16 @@
+language: go
+sudo: false
+
+addons:
+  postgresql: "9.3"
+
+go:
+- 1.4.1
+- 1.4.2
+
+install:
+  - make setup
+  
+script:
+  - make build
+  - make test
