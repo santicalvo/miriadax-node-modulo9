@@ -36,4 +36,4 @@ router.delete('/quizes/:quizId(\\d+)', quizController.destroy);
 //router.get('/author', quizController.author);
 //router.get('/quizes/question', quizController.question);
 
-module.exports = router;  
+module.exports = router;

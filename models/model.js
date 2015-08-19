@@ -37,8 +37,17 @@ if(fuckForeman){
 }
 
 //Importar la definición de la tabla en quiz.js
-var Quiz = sequelize.import(path.join(__dirname, 'quiz'));
+var quiz_path = path.join(__dirname, 'quiz');
+var Quiz = sequelize.import(quiz_path);
+
+var comment_path = path.join(__dirname, 'comment');
+var Comment = sequelize.import(comment_path);
+
+Comment.belongsTo(Quiz);
+Quiz.hasMany(Comment);
+
 exports.Quiz = Quiz; //exportar definición de tabla en Quiz
+exports.Comment = Comment; //exportar definición de tabla en Comment
 
 //squilize.sync crea e inicializa la tabla de preguntas
 sequelize.sync().then(function(){
