@@ -36,31 +36,14 @@ if(fuckForeman){
     console.log("ejecucion local para debugear sin  foreman");
 }
 
-
-
 //Importar la definición de la tabla en quiz.js
 var Quiz = sequelize.import(path.join(__dirname, 'quiz'));
 exports.Quiz = Quiz; //exportar definición de tabla en Quiz
-
-/*
-//Importar la definición de la tabla en subject.js
-var Subject = sequelize.import(path.join(__dirname, 'subject'));
-exports.Subject = Subject; //exportar definición de tabla en Subject
-//Quiz.belongsTo(Subject);
-Subject.hasMany(Quiz);
-*/
 
 //squilize.sync crea e inicializa la tabla de preguntas
 sequelize.sync().then(function(){
     Quiz.count().then(function(count){
         if(count === 0){ //La tabla se inicializa sólo si está vacía
-            /*
-            for (var i=0; i<materias.length; i++){
-                Subject.create({
-                    nombre: materias[i]
-                });
-            };
-            */
             Quiz.create({
                 pregunta: "Capital de Italia!",
                 respuesta: "Roma",
