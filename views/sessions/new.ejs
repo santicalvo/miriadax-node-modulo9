@@ -1,5 +1,7 @@
 <h2>Alta de usuario</h2>
-
+<% if(session && session.error && session.error.message) { %>
+    <div class="error">Se ha producido el error: <%= session.error.message %> </div>
+<% } %>
 <form method="POST" action="/login">
     <div class="field">
         <label for="login">Login:</label> <br />

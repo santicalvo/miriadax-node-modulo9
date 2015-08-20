@@ -20,14 +20,9 @@ exports.new = function(req, res){
     var password = req.body.password;
     var userController = require('./user_controller');
     userController.autenticar(login, password, function(error, user){
-        console.log("-----------err---------------")
-        console.log(error)
-        console.log("-------------err-------------")
-        console.log("-----------usr---------------")
-        console.log(user)
-        console.log("-------------usr-------------")
+
         if(error){
-            req.session.error = {'message': 'Se ha producido un error: '+error };
+            req.session.error = {'message': 'Se ha producido un error: '+error.message };
             res.redirect('/login');
             return;
         }
@@ -36,8 +31,10 @@ exports.new = function(req, res){
         //La sesión se define por la existencia de req.session.user
         req.session.user = {id: user.id, username: user.username}
         if(req.session.redir){
+            console.log("------------------redir session")
             res.redirect(req.session.redir.toString()); //redirección a paso antes de login
         } else {
+            console.log("------------------redir quizes")
             res.redirect('/quizes');
         }
         //res.redirect(req.session.redir.toString()); //redirección a paso antes de login

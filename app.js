@@ -81,6 +81,6 @@ app.use(function(err, req, res, next) {
         errors:[]
     });
 });
-
+app.locals.inspect = require('util').inspect;
 
 module.exports = app;

@@ -46,9 +46,12 @@ exports.index = function(req, res){
     });
 };
 
-//GET /quizes/question
+//GET /quizes/:id
 exports.show = function(req, res){
-    res.render('quizes/show', {quiz: req.quiz, errors:[]});
+    //res.render('quizes/show', {quiz: req.quiz, errors:[]});
+    models.Quiz.findById(req.params.quizId).then(function(quiz) {
+	    res.render('quizes/show', { quiz: req.quiz, errors: []})
+    })
 };
 
 //GET /quizes/answers
