@@ -15,11 +15,17 @@ exports.new = function(req, res){
     res.render('sessions/new', {errors:errors});
 };
 
-exports.create = function(req, res){
+ exports.create = function(req, res){
     var login = req.body.login;
     var password = req.body.password;
     var userController = require('./user_controller');
     userController.autenticar(login, password, function(error, user){
+        console.log("-----------err---------------")
+        console.log(error)
+        console.log("-------------err-------------")
+        console.log("-----------usr---------------")
+        console.log(user)
+        console.log("-------------usr-------------")
         if(error){
             req.session.error = {'message': 'Se ha producido un error: '+error };
             res.redirect('/login');
