@@ -23,6 +23,7 @@ exports.new = function(req, res){
 
         if(error){
             req.session.error = {'message': 'Se ha producido un error: '+error.message };
+            console.log("------------------redir login")
             res.redirect('/login');
             return;
         }
@@ -31,7 +32,7 @@ exports.new = function(req, res){
         //La sesión se define por la existencia de req.session.user
         req.session.user = {id: user.id, username: user.username}
         if(req.session.redir){
-            console.log("------------------redir session")
+            console.log("------------------redir session " +req.session.redir.toString())
             res.redirect(req.session.redir.toString()); //redirección a paso antes de login
         } else {
             console.log("------------------redir quizes")
