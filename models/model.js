@@ -67,3 +67,4 @@ sequelize.sync().then(function(){
         }
     });
 });
+exports.sequelize = sequelize;

@@ -132,5 +132,46 @@ exports.update = function(req, res){
 
 //GET /quizes/author
 exports.author = function (req, res){
-    res.render('author', {author: 'Santi'});
+    res.render('author', {author: 'Santi', errors: []});
+};
+//GET /quizes/statistics
+exports.statistics = function (req, res, next){
+    //Es poco eficiente encontrar todos los datos pero es lo más rápido y no tengo tiempo!!!!
+    models.Quiz
+        .findAll()
+        .then(function(quiz) {
+            req.quiz = quiz;
+            //res.render('quizes/statistics', {author: 'Santi', errors: []});
+            return models.Comment.findAll();
+        })
+        .then(function(comments){
+            req.comments = comments;
+            var quizzesId = [];
+            var quizLength = req.quiz.length;
+            var commentsLength = req.comments.length;
+            var cPregsSinComments = 0;
+            var cPregsConComments = 0;
+            //Guardo todas los quizId
+            for (var i=0; i< commentsLength; i++){
+                quizzesId.push(req.comments[i].dataValues.QuizId)
+            }
+            //Cuento todas las preguntas que tienen comentarios
+            for (var i=0; i< quizLength; i++){
+                if(quizzesId.indexOf(req.quiz[i].dataValues.id) !== -1){
+                    cPregsConComments++;
+                }
+            }
+            var stats = {
+                cPreguntas: quizLength,
+                cComentarios: commentsLength,
+                cComentsPregunta: req.comments.length/req.quiz.length,
+                cPregsSinComments: quizLength - cPregsConComments,
+                cPregsConComments: cPregsConComments,
+                errors: []};
+            res.render('quizes/statistics', stats);
+        })
+        .catch(function(err){
+            console.log(err);
+            next(err);
+        })
 };

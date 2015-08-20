@@ -43,7 +43,24 @@ app.use(function(req, res, next){
     //Hacer visible req.session en las vistas
     res.locals.session = req.session;
     next();
-})
+});
+
+//Comprobamos la última acción para cancelar sesión en dos minutos:
+
+app.use( function(req, res, next) {
+    var currentTime = new Date().getTime();
+    //Si el usuario se ha dado de alta...
+    if(req.session.user){
+        var ellapsedTime = (currentTime - req.session.lastAction) / 1000;
+        //Si han pasado más de dos minutos cancelamos el usuario
+        if(ellapsedTime > 120){
+            delete req.session.user;
+        }
+        console.log("------------han pasado: " + ellapsedTime +" segundos");
+    }
+    req.session.lastAction = currentTime;
+    next();
+});
 
 app.use('/', routes);
 //app.use('/users', users);
