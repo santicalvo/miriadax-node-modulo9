@@ -1,3 +1,12 @@
+//MW de acutorización de accesos http restringidos
+exports.loginRequired = function(req, res, next){
+    if(req.session.user){
+        next();
+    } else {
+        res.redirect('/login');
+    }
+}
+
 //Get form de login:
 exports.new = function(req, res){
     var errors = req.session.errors || {};
@@ -20,11 +29,21 @@ exports.create = function(req, res){
         //Crear req.session.user y guardar campos id y username
         //La sesión se define por la existencia de req.session.user
         req.session.user = {id: user.id, username: user.username}
-        res.redirect(req.session.redir.toString()); //redirección a paso antes de login
+        if(req.session.redir){
+            res.redirect(req.session.redir.toString()); //redirección a paso antes de login
+        } else {
+            res.redirect('/quizes');
+        }
+        //res.redirect(req.session.redir.toString()); //redirección a paso antes de login
     })
 };
 
 exports.destroy = function(req, res){
     delete req.session.user;
-    res.redirect(req.session.redir.toString()); //redirección a paso antes de login
+    if(req.session.redir){
+        res.redirect(req.session.redir.toString()); //redirección a paso antes de login
+    } else {
+        res.redirect('/login');
+    }
+    return;
 }

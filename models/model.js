@@ -30,10 +30,10 @@ var localSequelizeDebug = { dialect: 'sqlite',
     omitNull: true };
 
 // Poner a false para ejecutar con node sin foreman
-var fuckForeman = false;
+var fuckForeman = true;
 if(fuckForeman){
     sequelize = new Sequelize(DB_name, user, pwd, localSequelizeDebug);
-    console.log("ejecucion local para debugear sin  foreman");
+    console.log("ejecucion local para debugear sin  foreman "+DB_name);
 }
 
 //Importar la definición de la tabla en quiz.js
@@ -63,7 +63,7 @@ sequelize.sync().then(function(){
                 respuesta: "Lisboa",
                 materia: MAIN_SUBJECTS[0]
             })
-            .then( function(f){ console.log("Base de datos inicializada!")} );
+            .then( function(f){ console.log("Base de datos inicializada!"+DB_name)} );
         }
     });
 });
