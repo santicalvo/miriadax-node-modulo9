@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="dc1fbebf-7bd6-4707-ae7c-870b93c148c5" name="Default" comment="Mitad modulo 8">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/www" afterPath="$PROJECT_DIR$/bin/www" />
-    </list>
+    <list default="true" id="dc1fbebf-7bd6-4707-ae7c-870b93c148c5" name="Default" comment="Mitad modulo 8" />
     <ignored path="quiz.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
